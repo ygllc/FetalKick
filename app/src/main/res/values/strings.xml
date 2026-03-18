@@ -55,7 +55,7 @@
     <string name="export_subtitle">Export data to CSV file</string>
     <string name="export_success">Data exported successfully</string>
     <string name="export_error">Export failed: %1$s</string>
-    <string name="exporting">Exporting data...</string>
+    <string name="exporting">Exporting data…</string>
     <string name="share_export">Share Export</string>
     <string name="share_export_subtitle">Share the latest CSV export</string>
     <string name="appwidget_text">EXAMPLE</string>
