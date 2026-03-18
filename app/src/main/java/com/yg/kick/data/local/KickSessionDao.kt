@@ -33,4 +33,7 @@ interface KickSessionDao {
     
     @Query("SELECT * FROM kick_sessions WHERE date = :date AND mealType = :mealType")
     fun observeSessionByDateAndMeal(date: Long, mealType: String): Flow<KickSession?>
+
+    @Query("SELECT * FROM kick_sessions ORDER BY date DESC, createdAt DESC")
+    suspend fun getAllSessionsSync(): List<KickSession>
 }

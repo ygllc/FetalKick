@@ -18,7 +18,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.rounded.AccessTime
 import androidx.compose.material.icons.rounded.CalendarMonth
-import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.History
 import androidx.compose.material.icons.rounded.Restaurant
 import androidx.compose.material3.Card
@@ -41,7 +40,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.yg.kick.R
 import com.yg.kick.data.local.KickSession
 import com.yg.kick.ui.theme.MyMileageShapeDefaults.bottomListItemShape
-import com.yg.kick.ui.theme.MyMileageShapeDefaults.cardShape
 import com.yg.kick.ui.theme.MyMileageShapeDefaults.middleListItemShape
 import com.yg.kick.ui.theme.MyMileageShapeDefaults.topListItemShape
 import java.time.Instant
@@ -63,7 +61,7 @@ fun HistoryScreen(
 ) {
     val sessions by viewModel.sessions.collectAsState()
     HistoryScreenContent(
-        sessions = sessions, 
+        sessions = sessions,
         onNavigateBack = onNavigateBack,
         onDeleteSession = viewModel::deleteSession
     )
@@ -72,7 +70,7 @@ fun HistoryScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HistoryScreenContent(
-    sessions: List<KickSession>, 
+    sessions: List<KickSession>,
     onNavigateBack: () -> Unit = {},
     onDeleteSession: (Long) -> Unit = {}
 ) {
@@ -182,8 +180,8 @@ private fun HistoryCard(
     val cardShape = when {
         isFirst -> topListItemShape()
         isLast -> bottomListItemShape()
-        isMiddle -> middleListItemShape()
-        else -> cardShape
+//        isMiddle -> middleListItemShape()
+        else -> middleListItemShape()
     }
 
     Card(
@@ -262,14 +260,14 @@ private fun HistoryCard(
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onTertiaryContainer.copy(alpha = 0.7f)
                 )
-                Spacer(modifier = Modifier.height(4.dp))
-                IconButton(onClick = onDelete) {
-                    Icon(
-                        imageVector = Icons.Rounded.Delete,
-                        contentDescription = stringResource(R.string.delete),
-                        tint = MaterialTheme.colorScheme.error
-                    )
-                }
+//                Spacer(modifier = Modifier.height(4.dp))
+//                IconButton(onClick = onDelete) {
+//                    Icon(
+//                        imageVector = Icons.Rounded.Delete,
+//                        contentDescription = stringResource(R.string.delete),
+//                        tint = MaterialTheme.colorScheme.error
+//                    )
+//                }
             }
         }
     }

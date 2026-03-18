@@ -76,4 +76,8 @@ class KickSessionRepository(context: Context) {
     suspend fun deleteSessionsByDate(date: Long) {
         dao.deleteSessionsByDate(date)
     }
+
+    suspend fun getAllSessionsSync(): List<KickSession> {
+        return dao.getAllSessionsSync()
+    }
 }

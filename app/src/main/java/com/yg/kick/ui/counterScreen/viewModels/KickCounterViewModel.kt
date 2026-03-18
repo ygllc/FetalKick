@@ -16,7 +16,8 @@ import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.ZoneId
 
-class KickCounterViewModelFactory(private val application: Application) : ViewModelProvider.Factory {
+class KickCounterViewModelFactory(private val application: Application) :
+    ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(KickCounterViewModel::class.java)) {
@@ -31,7 +32,7 @@ enum class MealType {
 }
 
 enum class Screen {
-    COUNTER, HISTORY
+    COUNTER, HISTORY, SETTINGS
 }
 
 data class MealSessionData(
@@ -69,13 +70,13 @@ data class KickCounterUiState(
             val remainingSeconds = seconds % 60
             return "%02d:%02d".format(minutes, remainingSeconds)
         }
-    
+
     val currentKickCount: Int
         get() = currentMealData.kickCount
-    
+
     val isTimerPaused: Boolean
         get() = currentMealData.isPaused
-    
+
     val isTimerRunning: Boolean
         get() = currentMealData.isTimerRunning
 }
@@ -83,12 +84,12 @@ data class KickCounterUiState(
 class KickCounterViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository = KickSessionRepository(application)
-    
+
     private val _uiState = MutableStateFlow(KickCounterUiState())
     val uiState: StateFlow<KickCounterUiState> = _uiState.asStateFlow()
 
     private val timerJobs = mutableMapOf<MealType, Job?>()
-    
+
     private var isLoading = false
 
     init {
@@ -98,13 +99,13 @@ class KickCounterViewModel(application: Application) : AndroidViewModel(applicat
     private fun loadSessionForCurrentMealAndDate() {
         if (isLoading) return
         isLoading = true
-        
+
         val dateMillis = _uiState.value.selectedDate
             .atStartOfDay(ZoneId.systemDefault())
             .toInstant()
             .toEpochMilli()
         val mealType = _uiState.value.selectedMeal.name
-        
+
         viewModelScope.launch {
             val session = repository.getSessionByDateAndMeal(dateMillis, mealType)
             if (session != null) {
@@ -129,12 +130,12 @@ class KickCounterViewModel(application: Application) : AndroidViewModel(applicat
     private fun saveCurrentSession() {
         val state = _uiState.value
         val currentData = state.mealData[state.selectedMeal] ?: return
-        
+
         val dateMillis = state.selectedDate
             .atStartOfDay(ZoneId.systemDefault())
             .toInstant()
             .toEpochMilli()
-        
+
         viewModelScope.launch {
             repository.saveOrUpdateSession(
                 date = dateMillis,
@@ -161,6 +162,10 @@ class KickCounterViewModel(application: Application) : AndroidViewModel(applicat
 
     fun navigateToCounter() {
         _uiState.update { it.copy(currentScreen = Screen.COUNTER) }
+    }
+
+    fun navigateToSettings() {
+        _uiState.update { it.copy(currentScreen = Screen.SETTINGS) }
     }
 
     fun onDateSelected(date: LocalDate) {
@@ -198,7 +203,7 @@ class KickCounterViewModel(application: Application) : AndroidViewModel(applicat
     fun startTimer(durationMinutes: Int) {
         val meal = _uiState.value.selectedMeal
         if (_uiState.value.mealData[meal]?.isTimerRunning == true) return
-        
+
         val durationSeconds = durationMinutes * 60
         _uiState.update { state ->
             val updatedMealData = state.mealData.toMutableMap()
@@ -211,15 +216,15 @@ class KickCounterViewModel(application: Application) : AndroidViewModel(applicat
             )
             state.copy(mealData = updatedMealData)
         }
-        
+
         saveCurrentSession()
-        
+
         timerJobs[meal]?.cancel()
         timerJobs[meal] = viewModelScope.launch {
             while (true) {
                 val currentData = _uiState.value.mealData[meal] ?: break
                 if (currentData.timerSeconds >= currentData.totalSessionSeconds) break
-                
+
                 if (!currentData.isPaused) {
                     delay(1000)
                     _uiState.update { state ->
@@ -269,11 +274,12 @@ class KickCounterViewModel(application: Application) : AndroidViewModel(applicat
 
     fun resetTimer() {
         val meal = _uiState.value.selectedMeal
-        val currentKickCount = _uiState.value.mealData[meal]?.kickCount ?: 0
+//        val currentKickCount = _uiState.value.mealData[meal]?.kickCount ?: 0
         stopTimer(meal)
         _uiState.update { state ->
             val updatedMealData = state.mealData.toMutableMap()
-            updatedMealData[meal] = MealSessionData(kickCount = currentKickCount)
+            updatedMealData[meal] =
+                MealSessionData() // MealSessionData(kickCount = currentKickCount)
             state.copy(mealData = updatedMealData)
         }
         saveCurrentSession()

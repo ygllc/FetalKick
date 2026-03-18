@@ -34,6 +34,7 @@ import com.yg.kick.ui.counterScreen.screens.BreakfastScreen
 import com.yg.kick.ui.counterScreen.viewModels.KickCounterViewModel
 import com.yg.kick.ui.counterScreen.viewModels.KickCounterViewModelFactory
 import com.yg.kick.ui.historyScreen.HistoryScreen
+import com.yg.kick.ui.settingsScreen.SettingsScreen
 import com.yg.kick.ui.theme.FetalKickTheme
 import com.yg.kick.ui.theme.robotoFlexTopAppBar
 
@@ -46,10 +47,11 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             FetalKickTheme({
-                val viewModel: KickCounterViewModel = viewModel(factory = KickCounterViewModelFactory(application))
+                val viewModel: KickCounterViewModel =
+                    viewModel(factory = KickCounterViewModelFactory(application))
                 val uiState by viewModel.uiState.collectAsState()
-                
-                var checked by remember { mutableStateOf(false) }
+
+//                var checked by remember { mutableStateOf(false) }
                 var userEmail by rememberSaveable { mutableStateOf<String?>(null) }
                 var isLoading by remember { mutableStateOf(false) }
 //                val scope = rememberCoroutineScope()
@@ -68,10 +70,10 @@ class MainActivity : ComponentActivity() {
                                 )
                             },
                             navigationIcon = {
-                                IconButton(onClick = { /* TODO */ }) {
+                                IconButton(onClick = { /* viewModel.navigateToSettings() */ }) {
                                     Icon(
                                         Icons.Default.MoreVert,
-                                        contentDescription = "More options",
+                                        contentDescription = "Settings",
                                         tint = MaterialTheme.colorScheme.onTertiaryContainer
                                     )
                                 }
@@ -79,7 +81,10 @@ class MainActivity : ComponentActivity() {
                             actions = {
                                 if (userEmail != null) {
                                     IconButton(onClick = { userEmail = null }) {
-                                        Icon(Icons.AutoMirrored.Filled.Logout, contentDescription = "Logout")
+                                        Icon(
+                                            Icons.AutoMirrored.Filled.Logout,
+                                            contentDescription = "Logout"
+                                        )
                                     }
                                 }
                                 IconButton(onClick = { viewModel.navigateToHistory() }) {
@@ -119,8 +124,15 @@ class MainActivity : ComponentActivity() {
                                 com.yg.kick.ui.counterScreen.viewModels.Screen.COUNTER -> {
                                     BreakfastScreen(viewModel = viewModel)
                                 }
+
                                 com.yg.kick.ui.counterScreen.viewModels.Screen.HISTORY -> {
                                     HistoryScreen(
+                                        onNavigateBack = { viewModel.navigateToCounter() }
+                                    )
+                                }
+
+                                com.yg.kick.ui.counterScreen.viewModels.Screen.SETTINGS -> {
+                                    SettingsScreen(
                                         onNavigateBack = { viewModel.navigateToCounter() }
                                     )
                                 }
