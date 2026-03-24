@@ -5,8 +5,6 @@
 FetalKick helps you monitor your baby's movements throughout the day. Just tap to count each kick
 during your daily sessions — no fuss, no complicated setup.
 
----
-
 ## How It Works
 
 1. **Open the app** — You'll see the home screen with a "New Session" floating action button
@@ -21,8 +19,6 @@ during your daily sessions — no fuss, no complicated setup.
 6. **Exit the session** — Tap "Exit". If you recorded any kicks, the session saves automatically. If
    the count is zero, the session is discarded
 
----
-
 ## Features
 
 | Feature                 | What It Does                                    |
@@ -35,8 +31,6 @@ during your daily sessions — no fuss, no complicated setup.
 | **Customizable goals**  | Set your target kicks (4-20) and session length |
 | **Dark mode**           | Easy on the eyes, day or night                  |
 | **Dynamic colors**      | Matches your phone's theme on Android 12+       |
-
----
 
 ## Screenshots
 
@@ -52,8 +46,6 @@ it easy to notice patterns and share data with your care team.
 
 > **Note:** This app is for tracking purposes only. If you notice any changes in your baby's
 > movement patterns, please contact your healthcare provider.
-
----
 
 ## Get Started
 
@@ -83,19 +75,13 @@ cd FetalKick
 
 The APK will be in `app/build/outputs/apk/debug/`.
 
----
-
 ## Permissions
 
 - **Storage** — For exporting your data to a file
 - **Notifications** — Optional reminders to track kicks
 
----
-
 ## Support
 
 Having issues or have a suggestion? Open an issue on GitHub.
-
----
 
 **Made with care for expecting parents everywhere.**
