@@ -14,7 +14,7 @@ Use a session each time you want to count movements.
 {% endstep %}
 
 {% step %}
-### Tap the `New Session` FAB, aka.➕button.
+### Tap the `New Session` FAB ➕
 {% endstep %}
 
 {% step %}

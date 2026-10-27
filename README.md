@@ -3,7 +3,6 @@ description: >-
   A simple Android app to track fetal kicks after each meal during pregnancy
   using a daily calendar, numeric counters and optional stopwatch tracking.
 icon: baby
-coverY: 0
 layout: landing
 ---
 
@@ -66,7 +65,7 @@ Exit the session to save it. Then review it later in history or export it as `CS
 #### Build
 
 ```bash
-git clone https://github.com/your-repo/FetalKick.git
+git clone https://github.com/ygllc/FetalKick.git
 cd FetalKick
 ./gradlew assembleDebug
 ```

@@ -1,5 +1,6 @@
 ---
 description: Set up your first kick counting session in minutes.
+icon: mobile-button
 ---
 
 # Getting started
